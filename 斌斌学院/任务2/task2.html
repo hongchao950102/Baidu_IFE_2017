@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+  </head>
+<body>
+
+  <h3>污染城市列表</h3>
+  <ul id="aqi-list">
+<!--   
+    <li>第一名：福州（样例），10</li>
+      <li>第二名：福州（样例），10</li> -->
+  </ul>
+
+<script type="text/javascript">
+
+
+window.onload=function(){
+  var aqiData = [
+  ["北京", 90],
+  ["上海", 50],
+  ["福州", 10],
+  ["广州", 50],
+  ["成都", 90],
+  ["西安", 100],
+  ["贵阳", 150],
+  ["武汉", 120]
+];
+
+  var aqi_list=document.getElementById("aqi-list");
+  
+  var liContent=document.createTextNode("王宏超");
+  
+  //aqi_list.appendChild(uLi);
+  //uLi.appendChild(liContent);
+  //var arrCity=new Array();
+  var arrData=new Array();
+  for(var i=0;i<aqiData.length;i++){
+   //alert(aqiData[i]);
+    if(aqiData[i][1]>60){//把aqiData每个元素的第二项大于60的->
+        arrData.push(aqiData[i]);//存进arrData里
+     //}
+    }
+  }
+  
+  
+  //----------------排序--------------------
+   //对arrData每个元素的第二项进行从大到小排序并返回arrData
+    //冒泡排序
+    function bubbleSort(arrData) {
+    for(var i=0;i<arrData.length;i++){
+      for(var j=0;j<arrData.length-1-i;j++){
+          if(arrData[j][1]<arrData[j+1][1]){
+            var temp=arrData[j];
+            arrData[j]=arrData[j+1];
+            arrData[j+1]=temp;
+          }
+      }
+    }
+    return arrData;
+  }
+  bubbleSort(arrData);
+  //----------------排序--------------------
+  
+  //----------------动态创建li元素并把li放进列表aqi-list里，再把arrData的元素放进li里
+  for(var j=0;j<arrData.length;j++){
+   var uLi=new Array();
+   uLi[j]=document.createElement("li");
+   aqi_list.appendChild(uLi[j]);
+   uLi[j].appendChild(document.createTextNode("第"+(j+1)+"名："+arrData[j]));
+  }
+}
+</script>
+</body>
+</html>
