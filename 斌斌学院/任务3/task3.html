@@ -1,0 +1,131 @@
+<!DOCTYPE>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>IFE JavaScript Task 01</title>
+  </head>
+<body>
+
+  <ul id="source">
+    <li>北京空气质量：<b>90</b></li>
+    <li>上海空气质量：<b>70</b></li>
+    <li>天津空气质量：<b>80</b></li>
+    <li>广州空气质量：<b>50</b></li>
+    <li>深圳空气质量：<b>40</b></li>
+    <li>福州空气质量：<b>32</b></li>
+    <li>成都空气质量：<b>90</b></li>
+  </ul>
+
+  <ul id="resort">
+    <!-- 
+    <li>第一名：北京空气质量：<b>90</b></li>
+    <li>第二名：北京空气质量：<b>90</b></li>
+    <li>第三名：北京空气质量：<b>90</b></li>
+     -->
+
+  </ul>
+
+  <button id="sort-btn">排序</button>
+
+<script type="text/javascript">
+var source=document.getElementById("source");
+var resort=document.getElementById("resort");
+var sort_btn=document.getElementById("sort-btn");
+var uLi=source.getElementsByTagName("li");
+/**
+ * getData方法
+ * 读取id为source的列表，获取其中城市名字及城市对应的空气质量
+ * 返回一个数组，格式见函数中示例
+ */
+
+function getData() {
+  /*
+  coding here
+  */
+  
+  /*
+  data = [
+    ["北京", 90],
+    ["北京", 90]
+    ……
+  ]
+  */
+	var data=new Array();
+	var data1="";
+	var data2="";
+	for(var i=0;i<uLi.length;i++){
+	  //uLi[i].innerHTML.match(/\b[^ -~]{7}/)
+	    data1=uLi[i].innerHTML.match(/[^\d\w\<\>\/]{7}/);/*获取除数字，英文字符，"<",">","/"外的字符，长度为7，（获取字符中的中文）*/
+	    data2=uLi[i].innerHTML.match(/\d+/);//获取字符中的数字
+	    data[i]=[data1,data2];//把获取到的字符分成一组放到data数组中
+	    //alert(data[i]);
+	  }
+  return data;
+
+}
+
+/**
+ * sortAqiData
+ * 按空气质量对data进行从小到大的排序
+ * 返回一个排序后的数组
+ */
+function sortAqiData(data) {
+	//用冒泡排序对数组中每个元素的第二项进行比较并排序
+	for(var i=0;i<data.length;i++){
+		for(var j=0;j<data.length-1-i;j++){
+			if(data[j][1]<data[j+1][1]){
+				var temp=data[j];
+				data[j]=data[j+1];
+				data[j+1]=temp;
+			}
+		}
+	}
+	return data;
+}
+
+/*
+ * render
+ * 将排好序的城市及空气质量指数，输出显示到id位resort的列表中
+ * 格式见ul中的注释的部分
+ */
+function render(data) {
+   for(var j=0;j<data.length;j++){
+   var reLi=new Array();
+   var bLabel=new Array();
+   var bData=new Array();
+   var city=new Array();
+   reLi[j]=document.createElement("li");//创建标签<li>
+   bLabel[j]=document.createElement("b");//创建标签<b>
+   city[j]=document.createTextNode("第"+(j+1)+"名："+data[j][0]);/*把data数组中每个元素的第一项作为文本节点*/
+   bData[j]=document.createTextNode(data[j][1]);/*把data数组中每个元素的第二项作为文本节点(用于插入到标签<b>中)*/
+   resort.appendChild(reLi[j]);
+   reLi[j].appendChild(city[j]);
+   reLi[j].appendChild(bLabel[j]);
+   bLabel[j].appendChild(bData[j]);
+   
+   /*reLi[j].appendChild(
+   	bLabel[j].appendChild(document.createTextNode(data[j][1]))
+   	);*/
+  }
+}
+
+function btnHandle() {//各函数之间的调用
+  var aqiData = getData();
+  aqiData = sortAqiData(aqiData);
+  render(aqiData);
+}
+
+function init() {
+
+  // 在这下面给sort-btn绑定一个点击事件，点击时触发btnHandle函数
+  sort_btn.onclick=function(){
+  	btnHandle();
+  }
+
+}
+
+init();
+
+</script>
+</body>
+</html>
